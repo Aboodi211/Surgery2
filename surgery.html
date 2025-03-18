@@ -1,0 +1,2556 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبر نفسك بالجراحة - @Ans2co1bot</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 0;
+            color: #424242;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+        }
+
+        /* General Button Styles */
+        .button {
+            padding: 12px 25px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3f51b5;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-family: 'Cairo', sans-serif;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #303f9f;
+        }
+
+        /* Main Buttons Page Styles */
+        #main-buttons-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+        }
+        .main-button {
+            font-size: 1.2em;
+            width: 100%;
+        }
+
+        /* Sub-Buttons Page Styles */
+        .sub-buttons-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+        .sub-buttons-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .sub-button {
+            background-color: #f5f5f5;
+            color: #424242;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            flex-grow: 1;
+            min-width: calc(33% - 10px);
+            box-sizing: border-box;
+        }
+
+        /* Quiz Page Styles */
+        #quiz-page {
+            display: none;
+            width: 100%;
+            padding-bottom: 30px;
+            align-items: center;
+            flex-direction: column;
+        }
+        header {
+            background-color: #3f51b5;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            width: 95%;
+            box-sizing: border-box;
+        }
+        .question {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .question:last-child {
+            border-bottom: none;
+        }
+        .question h2 {
+            font-size: 1.3em;
+            color: #3f51b5;
+            margin-bottom: 15px;
+            font-family: 'Cairo', sans-serif;
+        }
+        .question .original-question, .question .translated-question {
+            font-family: 'Cairo', sans-serif;
+        }
+        .question .translated-question {
+            display: none;
+            font-size: 1.3em;
+            color: #3f51b5;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 10px;
+        }
+        .options button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #f5f5f5;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+            text-align: right;
+            box-sizing: border-box;
+        }
+        .options button:hover {
+            background-color: #e0e0e0;
+        }
+        .options .original-option, .options .translated-option{
+            display: block;
+            font-family: 'Cairo', sans-serif;
+        }
+        .options .translated-option{
+            display: none;
+        }
+        .options button.correct {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .options button.wrong {
+            background-color: #f44336;
+            color: white;
+        }
+        .translate-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .translate-button, .untranslate-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #7e57c2;
+            color: white;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin: 0 4px;
+            font-family: 'Cairo', sans-serif;
+        }
+        .translate-button:hover, .untranslate-button:hover {
+            background-color: #673ab7;
+        }
+        .untranslate-button {
+            background-color: #9e9e9e;
+        }
+        .untranslate-button:hover {
+            background-color: #757575;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #f0f0f0;
+            color: #757575;
+            font-size: 0.8em;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            width: 100%;
+            font-family: 'Cairo', sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Back Button Styles - Center Bottom */
+        .back-button-container {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .back-button {
+             background-color: #757575;
+             width: auto;
+             display: inline-block;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+
+
+        @media (max-width: 600px) {
+            #main-buttons-page {
+                max-width: 100%;
+                padding: 10px;
+            }
+            .main-button {
+                font-size: 1.1em;
+            }
+            .sub-buttons-page, #quiz-page {
+                padding: 10px;
+            }
+            .sub-buttons-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sub-button {
+                min-width: auto;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            .container {
+                margin: 15px;
+                padding: 15px;
+                width: calc(100% - 30px);
+            }
+            .question h2 {
+                font-size: 1.2em;
+            }
+            .options button {
+                font-size: 0.95em;
+            }
+            .translate-button, .untranslate-button {
+                font-size: 0.8em;
+                padding: 5px 10px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+
+    <div id="main-buttons-page">
+        <h1 style="font-family: 'Cairo', sans-serif; font-size: 1.8em; margin-bottom: 20px;">اختبر نفسك بالجراحة - @Ans2co1bot</h1>
+        <button class="button main-button" onclick="showSubButtonsPage('ministry-bag-sub-buttons-page')">اسئلة الحقيبة الوزارية مع اسئلة الدكتور نهاية المحاضرات MCQ</button>
+    </div>
+
+
+    <div id="ministry-bag-sub-buttons-page" class="sub-buttons-page">
+        <div class="sub-buttons-container">
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture1')">المحاضرة الأولى</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture2')">المحاضرة الثانية</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture3')">المحاضرة الثالثة</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture4')">المحاضرة الرابعة</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture5')">المحاضرة الخامسة</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture6')">المحاضرة السادسة</button>
+            <button class="button sub-button" onclick="loadQuiz('MinistryBag', 'Lecture7')">المحاضرة السابعة</button>
+        </div>
+        <div class="back-button-container">
+            <button class="button back-button" onclick="showMainButtonsPage()">رجوع</button>
+        </div>
+    </div>
+
+    <div id="quiz-page">
+        <header>
+            <h1 id="quiz-title"><i class="fas fa-flask"></i>  </h1>
+        </header>
+        <div class="container">
+            <!-- Questions will be loaded here -->
+        </div>
+        <footer>
+            <div class="back-button-container" style="margin-top: 0; margin-bottom: 10px;">
+                <button class="button back-button" onclick="showSubButtonsPageFromQuiz()">رجوع</button>
+            </div>
+            <i class="far fa-copyright"></i> عبدالرحمن حسن
+        </footer>
+    </div>
+
+    <script>
+        const quizData = {
+            "MinistryBag": {
+                "Lecture1": [
+                     {
+                        question: "What is a significant difference between adults and children in terms of thermal regulation?",
+                        options: [
+                            "A) Children have more subcutaneous fat",
+                            "B) Children have better heat retention",
+                            "C) Infants have poor thermal control and are liable to cold injury",
+                            "D) Adults lose heat faster than children"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following is NOT a reason why infants are prone to cold injury?",
+                        options: [
+                            "A) Greater heat loss from respiration",
+                            "B) Less subcutaneous fat",
+                            "C) Immature vasomotor control",
+                            "D) Larger muscle mass"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What is an essential step in preventing cold injury during surgery in infants?",
+                        options: [
+                            "A) Using cold respiratory gases",
+                            "B) Keeping the operating room warm",
+                            "C) Avoiding insulation of the head",
+                            "D) Keeping infusions at room temperature"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a significant anatomical difference between pediatric and adult airways?",
+                        options: [
+                            "A) Pediatric larynx is positioned lower",
+                            "B) Pediatric epiglottis is smaller",
+                            "C) Pediatric tongue is proportionally larger",
+                            "D) Pediatric trachea is longer"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the primary consideration before prescribing perioperative fluid in children?",
+                        options: [
+                            "A) Body weight",
+                            "B) Blood glucose level",
+                            "C) Presence of infection",
+                            "D) Parental consent"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which of the following is NOT an indication for intravenous fluid in pediatric patients?",
+                        options: [
+                            "A) Circulatory support in resuscitation",
+                            "B) Maintenance of hydration",
+                            "C) Postoperative fasting",
+                            "D) Replacement of electrolyte deficits"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Why are infants more prone to hyponatremia?",
+                        options: [
+                            "A) They excrete more sodium in urine",
+                            "B) They drink excessive water",
+                            "C) Hypotonic maintenance fluids can cause hyponatremia",
+                            "D) They have a lower metabolic rate"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which fluid is considered isotonic for pediatric perioperative management?",
+                        options: [
+                            "A) 0.18% saline with 4% dextrose",
+                            "B) 5% dextrose",
+                            "C) 0.45% saline",
+                            "D) 3% saline"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is a critical component of surgical preparation for pediatric patients?",
+                        options: [
+                            "A) History taking, including perinatal problems",
+                            "B) Only physical examination",
+                            "C) Parent’s education level",
+                            "D) Weight measurement only"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What should be avoided in postoperative pain management for children?",
+                        options: [
+                            "A) Acetaminophen",
+                            "B) Opiates",
+                            "C) NSAIDs",
+                            "D) Local anesthesia"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is an essential technique during pediatric surgery?",
+                        options: [
+                            "A) Use of thick suture materials",
+                            "B) Strict hemostasis",
+                            "C) Rapid and forceful movements",
+                            "D) Minimal anesthesia"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a primary cause of wound dehiscence in pediatric surgery?",
+                        options: [
+                            "A) Poor surgical technique",
+                            "B) Excessive hydration",
+                            "C) Use of non-absorbable sutures",
+                            "D) Delayed surgery"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Why should opiates be avoided in postoperative care for children?",
+                        options: [
+                            "A) They are ineffective in children",
+                            "B) They can cause respiratory depression",
+                            "C) They increase heart rate",
+                            "D) They have no impact on pain control"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary reason for warming respiratory gases during surgery?",
+                        options: [
+                            "A) To prevent lung infection",
+                            "B) To prevent cold injury",
+                            "C) To increase oxygen saturation",
+                            "D) To enhance anesthetic absorption"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is an essential aspect of postoperative care in children?",
+                        options: [
+                            "A) Avoiding any pain management",
+                            "B) Providing adequate analgesia",
+                            "C) Encouraging fasting for long periods",
+                            "D) Administering high-dose antibiotics"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the definition of a neonate?",
+                        options: [
+                            "A) A child aged 1 to 5 years",
+                            "B) A baby up to 28 days of age",
+                            "C) A child up to 16 years of age",
+                            "D) A baby born before 37 weeks of gestation",
+                            "E) A child aged 1 month to 1 year"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What anatomical feature is a significant difference in the infant’s airway?",
+                        options: [
+                            "A) Larger trachea",
+                            "B) Short neck",
+                            "C) Horizontal vocal cords",
+                            "D) Lower larynx",
+                            "E) Smaller tongue"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which shape describes the epiglottis in infants?",
+                        options: [
+                            "A) Flat",
+                            "B) Concave",
+                            "C) Omega-shaped",
+                            "D) Round",
+                            "E) Triangular"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Why are infants more susceptible to cold injury?",
+                        options: [
+                            "A) Increased subcutaneous fat",
+                            "B) Higher respiratory rates",
+                            "C) Greater metabolic rate",
+                            "D) Lower surface area to weight ratio",
+                            "E) Immature renal function"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What assessment indicates dehydration in children?",
+                        options: [
+                            "A) Increased appetite",
+                            "B) Sunken fontanelle",
+                            "C) Increase in urine output",
+                            "D) Normal skin turgor",
+                            "E) Increased activity level"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a sign of severe dehydration?",
+                        options: [
+                            "A) Increased elasticity of the skin",
+                            "B) Normal capillary refill time",
+                            "C) Weight loss of ≥15%",
+                            "D) Increased urine output"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the hourly fluid rate for a child weighing 35 kg using the '4-2-1' formula?",
+                        options: [
+                            "A) 50 cc/hour",
+                            "B) 75 cc/hour",
+                            "C) 100 cc/hour",
+                            "D) 120 cc/hour",
+                            "E) 150 cc/hour"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the blood volume estimate for a full-term infant?",
+                        options: [
+                            "A) 70-80 ml/kg",
+                            "B) 85-100 ml/kg",
+                            "C) 90-110 ml/kg",
+                            "D) 100-120 ml/kg"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a common cause of hyponatremia in pediatric patients?",
+                        options: [
+                            "A) Excessive sodium intake",
+                            "B) Use of hypotonic maintenance fluids",
+                            "C) High protein in diet",
+                            "D) Insufficient fluid intake",
+                            "E) Use of isotonic fluids"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is recommended to maintain temperature during surgery?",
+                        options: [
+                            "A) Use of cold saline infusions",
+                            "B) Insulation of the infant’s head",
+                            "C) Keeping the operating room cool",
+                            "D) Avoiding warm fluids",
+                            "E) Rapid ventilation with cold air"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Why should respiratory gases be warmed during surgery?",
+                        options: [
+                            "A) To enhance oxygen delivery",
+                            "B) To decrease insensible water loss",
+                            "C) To prevent respiratory distress",
+                            "D) To maintain normal blood pressure",
+                            "E) To avoid hyperthermia"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a key principle in pediatric surgical technique?",
+                        options: [
+                            "A) Aggressive tissue handling",
+                            "B) Use of heavy suture material",
+                            "C) Strict hemostasis",
+                            "D) Rapid closure of wounds",
+                            "E) Avoidance of magnification aids"
+                        ],
+                        correct: 2
+                    }
+                ],
+                "Lecture2": [
+                    {
+                        question: "What is one of the primary goals of combat surgery?",
+                        options: [
+                            "A) To return the greatest number to combat",
+                            "B) To perform elective surgeries",
+                            "C) To minimize the use of anesthesia",
+                            "D) To avoid any surgical interventions",
+                            "E) To prioritize cosmetic outcomes"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the purpose of triage in a combat setting?",
+                        options: [
+                            "A) To prioritize cosmetic procedures",
+                            "B) To identify the priority of treatment for the wounded",
+                            "C) To minimize the number of casualties",
+                            "D) To guarantee evacuation for all",
+                            "E) To treat all injuries equally"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary risk of death in warfare injuries?",
+                        options: [
+                            "A) Minor infections",
+                            "B) Psychological trauma",
+                            "C) Immediate hemorrhage or direct injury",
+                            "D) Long-term rehabilitation",
+                            "E) Chronic pain syndromes"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which mechanism of injury occurs when the victim is thrown through the air into something solid?",
+                        options: [
+                            "A) Primary (Blast Wave)",
+                            "B) Secondary (Penetrating)",
+                            "C) Tertiary (Blunt Blast Wind)",
+                            "D) Quaternary",
+                            "E) None of the above"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What occurs during the temporary cavity phase of a gunshot wound?",
+                        options: [
+                            "A) No tissue displacement",
+                            "B) Permanent damage to surrounding tissues",
+                            "C) Transient lateral displacement of tissue",
+                            "D) Immediate healing of tissues",
+                            "E) Fracture of the projectile"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which type of injury is caused by the primary blast wave?",
+                        options: [
+                            "A) Penetrating injuries from debris",
+                            "B) Blunt force injuries from being thrown",
+                            "C) Damage to air-filled organs",
+                            "D) Thermal burns",
+                            "E) Inhalation injuries"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What does a red tag indicate in the military triage system?",
+                        options: [
+                            "A) Minimal injuries",
+                            "B) Stable condition",
+                            "C) Immediate medical care needed",
+                            "D) Deceased",
+                            "E) Delayed evacuation"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What are secondary injuries primarily due to?",
+                        options: [
+                            "A) Blast wind effects",
+                            "B) Thermal exposure",
+                            "C) Penetrating fragments and debris",
+                            "D) Psychological trauma",
+                            "E) Fractures from blunt force"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What does quaternary injury refer to?",
+                        options: [
+                            "A) Injuries from the blast wave",
+                            "B) Injuries from secondary debris",
+                            "C) Thermal effects and exposure to harmful agents",
+                            "D) Blunt force injuries",
+                            "E) Penetrating injuries from shrapnel"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the primary goal of triage in combat?",
+                        options: [
+                            "a) Treating all patients equally",
+                            "b) Sorting casualties based on priority of care",
+                            "c) Providing immediate surgery to all casualties",
+                            "d) Transporting all casualties at once"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the most commonly used triage system in combat?",
+                        options: [
+                            "a) Alphabet-based triage",
+                            "b) Number-coded triage",
+                            "c) Color-coded triage",
+                            "d) Age-based triage"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which triage category is assigned to patients who need immediate medical attention?",
+                        options: [
+                            "a) Green",
+                            "b) Yellow",
+                            "c) Red",
+                            "d) Black"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What type of injury is caused by high-velocity gunshot wounds (GSW)?",
+                        options: [
+                            "a) Blunt trauma",
+                            "b) Penetrating trauma",
+                            "c) Burn injuries",
+                            "d) Chemical exposure"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT a principle of warfare surgery?",
+                        options: [
+                            "a) Prevent infectious complications",
+                            "b) Treat the weapon causing the wound",
+                            "c) Establish priorities of care",
+                            "d) Minimize residual disability"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is an example of a primary blast injury?",
+                        options: [
+                            "a) Fragments hitting the body",
+                            "b) Burns from explosion heat",
+                            "c) Blast lung (barotrauma)",
+                            "d) Blunt force trauma from falling debris"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which type of injury is caused by flying debris from an explosion?",
+                        options: [
+                            "a) Primary",
+                            "b) Secondary",
+                            "c) Tertiary",
+                            "d) Quaternary"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "A patient with minor injuries who can walk and does not require immediate medical attention is classified as:",
+                        options: [
+                            "a) Red (Immediate)",
+                            "b) Yellow (Delayed)",
+                            "c) Green (Minor)",
+                            "d) Black (Deceased)"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which type of blast injury occurs due to the collapse of surrounding structures?",
+                        options: [
+                            "a) Primary",
+                            "b) Secondary",
+                            "c) Tertiary",
+                            "d) Quaternary"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the most common cause of early death in warfare injuries?",
+                        options: [
+                            "a) Infection",
+                            "b) Hemorrhage",
+                            "c) Burns",
+                            "d) Psychological shock"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following injuries is caused by exposure to fire, gases, or radiation from an explosion?",
+                        options: [
+                            "a) Primary",
+                            "b) Secondary",
+                            "c) Tertiary",
+                            "d) Quaternary"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "Which type of patients are classified under 'Delayed' (Yellow) in the triage system?",
+                        options: [
+                            "a) Patients who are already deceased",
+                            "b) Patients who need immediate care",
+                            "c) Patients who are stable but need medical care soon",
+                            "d) Patients who can wait several days for treatment"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which injury is most likely in a patient exposed to a high-order explosive blast wave?",
+                        options: [
+                            "a) Broken bones",
+                            "b) Ruptured eardrum",
+                            "c) Superficial skin burns",
+                            "d) Psychological trauma"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary effect of tertiary blast injuries?",
+                        options: [
+                            "a) Burns",
+                            "b) Lung barotrauma",
+                            "c) Crush injuries from falling structures",
+                            "d) Wounds from explosive fragments"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the key goal in managing warfare injuries?",
+                        options: [
+                            "a) Prolonging the patient’s stay in a medical facility",
+                            "b) Minimizing residual disability and complications",
+                            "c) Treating every injury on the battlefield",
+                            "d) Evacuating all wounded soldiers at the same time"
+                        ],
+                        correct: 1
+                    }
+                ],
+                "Lecture3": [
+                     {
+                        question: "What is the definition of osteomyelitis?",
+                        options: [
+                            "A) Infection of the joint space",
+                            "B) Infection of the bone",
+                            "C) Infection of the surrounding soft tissue",
+                            "D) Infection caused by viruses only",
+                            "E) Infection of the muscle tissue"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which organism is the most common causative agent of acute hematogenous osteomyelitis?",
+                        options: [
+                            "A) Streptococcus pneumoniae",
+                            "B) Pseudomonas aeruginosa",
+                            "C) Staphylococcus aureus",
+                            "D) Neisseria gonorrhea",
+                            "E) E. coli"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which condition is characterized by an infection of the joint space?",
+                        options: [
+                            "A) Osteomyelitis",
+                            "B) Septic arthritis",
+                            "C) Osteoporosis",
+                            "D) Osteoarthritis",
+                            "E) Rheumatoid arthritis"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How is acute osteomyelitis characterized?",
+                        options: [
+                            "A) Long-standing infection with intermittent symptoms",
+                            "B) Rapid onset with severe symptoms",
+                            "C) Infection involving artificial joint replacements",
+                            "D) Presence of dead bone (sequestra)",
+                            "E) Infection caused solely by fungi"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a common symptom of osteomyelitis?",
+                        options: [
+                            "A) Joint stiffness",
+                            "B) Bone and joint pain",
+                            "C) Hair loss",
+                            "D) Difficulty breathing",
+                            "E) Nausea only"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which symptom indicates systemic involvement in osteomyelitis?",
+                        options: [
+                            "A) Local redness",
+                            "B) Fever and chills",
+                            "C) Restricted joint movement",
+                            "D) Swelling only",
+                            "E) Bone pain"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the role of MRI in osteomyelitis diagnosis?",
+                        options: [
+                            "A) It is the first-line imaging modality.",
+                            "B) It detects early bone infection within 1 to 2 days.",
+                            "C) It is only used for chronic cases.",
+                            "D) It is less effective than X-rays.",
+                            "E) It cannot visualize bone structures."
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary goal of osteomyelitis treatment?",
+                        options: [
+                            "A) To enhance bone density",
+                            "B) To get rid of the infection",
+                            "C) To perform elective surgeries",
+                            "D) To minimize hospital stays",
+                            "E) To relieve anxiety"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a potential complication of chronic osteomyelitis?",
+                        options: [
+                            "A) Improved bone strength",
+                            "B) Growth disturbances in children",
+                            "C) Decreased risk of fractures",
+                            "D) Normal healing of the bone",
+                            "E) None of the above"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What can chronic osteomyelitis lead to regarding the affected bone?",
+                        options: [
+                            "A) Enhanced function",
+                            "B) Pathologic fractures",
+                            "C) Increased flexibility",
+                            "D) Decreased susceptibility to trauma",
+                            "E) Complete regeneration"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a significant risk associated with septic arthritis?",
+                        options: [
+                            "A) Joint destruction",
+                            "B) Enhanced joint function",
+                            "C) Increased range of motion",
+                            "D) Decreased risk of infection",
+                            "E) Normal healing processes"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What complications can arise from osteomyelitis?",
+                        options: [
+                            "A) Bone deformities and impaired function",
+                            "B) Growth disturbances and limb length discrepancies",
+                            "C) Abscess formation",
+                            "D) Pathologic fractures",
+                            "E) All of the above"
+                        ],
+                        correct: 4
+                    },
+                    {
+                        question: "What is osteomyelitis?",
+                        options: [
+                            "a) A viral infection of the bone",
+                            "b) A bacterial infection of the bone",
+                            "c) A fungal infection of the joints",
+                            "d) A genetic bone disorder"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which bacteria is the main cause of osteomyelitis?",
+                        options: [
+                            "a) Escherichia coli",
+                            "b) Staphylococcus aureus",
+                            "c) Streptococcus pneumoniae",
+                            "d) Mycobacterium tuberculosis"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT a cause of osteomyelitis?",
+                        options: [
+                            "a) Bloodborne infection",
+                            "b) Infection from nearby skin or muscles",
+                            "c) Viral infection in the lungs",
+                            "d) Bone surgery"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following is a risk factor for osteomyelitis?",
+                        options: [
+                            "a) Diabetes",
+                            "b) High blood pressure",
+                            "c) Obesity",
+                            "d) Asthma"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the primary symptom of osteomyelitis?",
+                        options: [
+                            "a) Bone and joint pain",
+                            "b) Hair loss",
+                            "c) Weight gain",
+                            "d) Nausea"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which of the following is a diagnostic test for osteomyelitis?",
+                        options: [
+                            "a) Blood pressure test",
+                            "b) MRI of the bone",
+                            "c) ECG",
+                            "d) Lung function test"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How long is antibiotic treatment typically required for osteomyelitis?",
+                        options: [
+                            "a) 1-2 weeks",
+                            "b) 4-6 weeks",
+                            "c) 6 months",
+                            "d) 1 year"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following antibiotics is commonly used to treat osteomyelitis?",
+                        options: [
+                            "a) Methicillin",
+                            "b) Amoxicillin",
+                            "c) Azithromycin",
+                            "d) Doxycycline"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Why is surgery sometimes needed in osteomyelitis treatment?",
+                        options: [
+                            "a) To replace the joint",
+                            "b) To remove dead bone tissue",
+                            "c) To improve blood circulation",
+                            "d) To reduce fever"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is a complication of osteomyelitis?",
+                        options: [
+                            "a) Chronic arthritis",
+                            "b) Heart attack",
+                            "c) Liver failure",
+                            "d) Stroke"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which type of osteomyelitis infection requires special antibiotics?",
+                        options: [
+                            "a) Methicillin-resistant Staphylococcus aureus (MRSA)",
+                            "b) E. coli",
+                            "c) Streptococcus infection",
+                            "d) Fungal osteomyelitis"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which factor weakens the immune system and increases osteomyelitis risk?",
+                        options: [
+                            "a) Recent surgery",
+                            "b) High salt intake",
+                            "c) Excessive exercise",
+                            "d) Drinking too much water"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "How can bacteria spread to bones, leading to osteomyelitis?",
+                        options: [
+                            "a) Through bloodborne infection",
+                            "b) By inhalation of dust",
+                            "c) Through excessive sweating",
+                            "d) By touching an infected person"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which symptom differentiates osteomyelitis from a regular joint sprain?",
+                        options: [
+                            "a) Fever and chills",
+                            "b) Joint swelling",
+                            "c) Redness",
+                            "d) Muscle weakness"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which of the following is a potential treatment for osteomyelitis?",
+                        options: [
+                            "a) Vitamin supplements",
+                            "b) Herbal tea",
+                            "c) Bone graft",
+                            "d) Massage therapy"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which imaging test is most detailed for diagnosing osteomyelitis?",
+                        options: [
+                            "a) X-ray",
+                            "b) MRI",
+                            "c) Ultrasound",
+                            "d) CT scan"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the main goal of osteomyelitis treatment?",
+                        options: [
+                            "a) Strengthen the bones",
+                            "b) Reduce blood sugar levels",
+                            "c) Get rid of the infection",
+                            "d) Improve skin health"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is used to fill the space after removing dead bone tissue?",
+                        options: [
+                            "a) Artificial joint",
+                            "b) Antibiotic cement spacer",
+                            "c) Metal rod",
+                            "d) Collagen injection"
+                        ],
+                        correct: 1
+                    }
+                ],
+                "Lecture4": [
+                     {
+                        question: "What is the main advantage of day case surgery?",
+                        options: [
+                            "a) Longer inpatient stays",
+                            "b) Increased risk of hospital acquired infections",
+                            "c) Reduced waiting lists",
+                            "d) Higher hospital costs",
+                            "e) Increased demand for inpatient beds"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which surgical technique has facilitated day case surgery?",
+                        options: [
+                            "a) Open surgery",
+                            "b) Radiosurgery",
+                            "c) Minimally invasive surgery",
+                            "d) Microscopic surgery",
+                            "e) None of the above"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What are the advantages of laparoscopic surgery?",
+                        options: [
+                            "a) Larger incisions",
+                            "b) Increased tissue trauma",
+                            "c) Slower recovery times",
+                            "d) Shorter inpatient stays",
+                            "e) Higher risk of complications"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "Which of the following is an example of day case surgery?",
+                        options: [
+                            "a) Knee replacement surgery",
+                            "b) Heart bypass surgery",
+                            "c) Gallbladder removal surgery",
+                            "d) Brain tumor removal surgery",
+                            "e) Hip fracture repair surgery"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What factors are considered in patient selection for day case surgery?",
+                        options: [
+                            "a) Social factors only",
+                            "b) Medical factors only",
+                            "c) Age and gender",
+                            "d) Social and medical factors",
+                            "e) Medical insurance coverage"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What is the recommended distance from the health facility for a day case surgery patient?",
+                        options: [
+                            "a) Within 30 minutes",
+                            "b) Within 1 hour",
+                            "c) Within 2 hours",
+                            "d) Within 4 hours",
+                            "e) No specific distance requirement"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the definition of Day Case Surgery?",
+                        options: [
+                            "a) Surgery requiring an overnight stay",
+                            "b) Admission and discharge on the same day",
+                            "c) Surgery performed in an emergency",
+                            "d) A procedure requiring ICU admission"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What percentage of surgeries in the UK are day case surgeries?",
+                        options: [
+                            "a) 30%",
+                            "b) 50%",
+                            "c) 70%",
+                            "d) 90%"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following is an advantage of day case surgery?",
+                        options: [
+                            "a) Longer hospital stay",
+                            "b) Increased hospital infection risk",
+                            "c) Cost-effectiveness",
+                            "d) Increased inpatient bed demand"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Who reviews the patient during the preoperative assessment?",
+                        options: [
+                            "a) Only the surgeon",
+                            "b) A specialist nurse and anesthetist",
+                            "c) The patient’s family",
+                            "d) A hospital administrator"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How many hours before surgery should a patient fast when undergoing general anesthesia?",
+                        options: [
+                            "a) 2 hours",
+                            "b) 4 hours",
+                            "c) 6 hours",
+                            "d) 8 hours"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which factor is NOT a criterion for day case procedures?",
+                        options: [
+                            "a) Minimal blood loss",
+                            "b) High risk of complications",
+                            "c) No need for specialist aftercare",
+                            "d) Ability to manage pain at home"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Why is patient selection crucial for day case surgery?",
+                        options: [
+                            "a) To ensure hospital beds remain occupied",
+                            "b) To reduce surgical costs",
+                            "c) To improve success and safety",
+                            "d) To limit the number of procedures performed"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which is a key social factor in patient selection for day surgery?",
+                        options: [
+                            "a) Patient must be a hospital employee",
+                            "b) Patient should have an informed understanding of the procedure",
+                            "c) Patient must be over 50 years old",
+                            "d) Patient must stay in the hospital for at least 48 hours"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is a medical criterion for day case surgery?",
+                        options: [
+                            "a) Severe comorbidities",
+                            "b) Poorly controlled diabetes",
+                            "c) Stable chronic diseases",
+                            "d) High risk of postoperative complications"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Why are poorly controlled diabetic patients not suitable for day case surgery?",
+                        options: [
+                            "a) They require extensive post-operative monitoring",
+                            "b) They have no risk of complications",
+                            "c) They recover faster at home",
+                            "d) They do not require any dietary restrictions"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What should be ensured about a patient’s medication before surgery?",
+                        options: [
+                            "a) They must take extra medication",
+                            "b) Medication must not interfere with surgery",
+                            "c) All medications should be stopped",
+                            "d) Only antibiotics should be taken"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is one reason day case surgery reduces hospital-acquired infections?",
+                        options: [
+                            "a) Patients leave the hospital quickly",
+                            "b) Patients are given antibiotics after discharge",
+                            "c) Patients do not require anesthesia",
+                            "d) Patients stay in ICU for observation"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is NOT required for a patient undergoing day case surgery?",
+                        options: [
+                            "a) Overnight hospital stay",
+                            "b) Ability to mobilize after surgery",
+                            "c) Minimal blood loss during the procedure",
+                            "d) Ability to manage pain at home"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is an important postoperative social requirement for day case patients?",
+                        options: [
+                            "a) They should be able to drive themselves home",
+                            "b) They should have a responsible adult for support",
+                            "c) They must stay in the hospital for 24 hours",
+                            "d) They should be able to work immediately"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which type of procedures are generally selected for day case surgery?",
+                        options: [
+                            "a) High-risk procedures",
+                            "b) Procedures with minimal complications",
+                            "c) Emergency surgeries",
+                            "d) Surgeries requiring prolonged monitoring"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT an advantage of day case surgery?",
+                        options: [
+                            "a) Shorter hospital stays",
+                            "b) Lower risk of hospital-acquired infection",
+                            "c) Increased demand for inpatient beds",
+                            "d) Reduced waiting lists"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the main goal of preoperative assessment in day case surgery?",
+                        options: [
+                            "a) To increase hospital revenue",
+                            "b) To ensure patient safety and readiness",
+                            "c) To make sure all patients qualify for surgery",
+                            "d) To delay surgery when possible"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following conditions would make a patient unsuitable for day case surgery?",
+                        options: [
+                            "a) Well-managed diabetes",
+                            "b) Minimal blood loss expected",
+                            "c) High risk of immediate complications",
+                            "d) No need for specialist aftercare"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following is an important selection factor for day case surgery?",
+                        options: [
+                            "a) Patients must have specialist care after surgery",
+                            "b) Patients should not need prolonged monitoring",
+                            "c) Patients must stay in the hospital for a week",
+                            "d) Patients should have a high risk of infection"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary reason day case surgery is cost-effective?",
+                        options: [
+                            "a) It requires more hospital staff",
+                            "b) It reduces hospital stay costs",
+                            "c) It increases patient admission rates",
+                            "d) It requires longer post-operative care"
+                        ],
+                        correct: 1
+                    }
+                ],
+                "Lecture5": [
+                     {
+                        question: "What is an ulcer?",
+                        options: [
+                            "o A) A superficial skin erosion",
+                            "o B) A break in the epithelial continuity of skin or mucous membrane",
+                            "o C) A crack in the skin",
+                            "o D) A generalized sore",
+                            "o E) A type of skin cancer"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a common cause of pressure ulcers?",
+                        options: [
+                            "o A) Infection",
+                            "o B) Prolonged immobilization",
+                            "o C) Poor diet",
+                            "o D) Excessive physical activity",
+                            "o E) Dehydration"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Where do pressure sores commonly develop?",
+                        options: [
+                            "o A) Elbows",
+                            "o B) Knees",
+                            "o C) Sacrum/Coccyx",
+                            "o D) Shoulders",
+                            "o E) Hands"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is a common risk factor for developing peptic ulcers?",
+                        options: [
+                            "o A) High physical activity",
+                            "o B) Smoking",
+                            "o C) Low caffeine intake",
+                            "o D) Vegetarian diet",
+                            "o E) High fiber intake"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What can occur due to the penetration of a peptic ulcer into adjacent structures?",
+                        options: [
+                            "o A) Gastric outlet obstruction",
+                            "o B) Fistula formation",
+                            "o C) Stress ulcer",
+                            "o D) Inflammation",
+                            "o E) Hyperacidity"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the pathophysiology behind pilonidal sinus disease?",
+                        options: [
+                            "o A) Infection from bacteria in the bloodstream",
+                            "o B) Collection of loose hairs causing inflammation",
+                            "o C) Genetic predisposition to skin lesions",
+                            "o D) Chronic skin irritation",
+                            "o E) Nutritional deficiencies"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What treatment is indicated for complicated cases of pilonidal sinus?",
+                        options: [
+                            "o A) Antibiotics only",
+                            "o B) Surgery",
+                            "o C) Topical creams",
+                            "o D) Physical therapy",
+                            "o E) Dietary changes"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which conservative treatment can help with pilonidal sinus disease?",
+                        options: [
+                            "o A) Regular hair removal",
+                            "o B) Increased physical activity",
+                            "o C) Corticosteroid injections",
+                            "o D) High-protein diet",
+                            "o E) Bed rest"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is a fistula?",
+                        options: [
+                            "o A) An abnormal opening in the skin",
+                            "o B) An abnormal communication between two epithelial surfaces",
+                            "o C) A type of ulcer",
+                            "o D) A benign tumor",
+                            "o E) A chronic infection"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is an ulcer?",
+                        options: [
+                            "A) Loss of superficial skin layers only",
+                            "B) Damage to both superficial and deeper skin layers",
+                            "C) A narrow, deep wound",
+                            "D) A cavity in tissue"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the main cause of peptic ulcer?",
+                        options: [
+                            "A) Stress",
+                            "B) Infection with H. pylori",
+                            "C) Excessive exercise",
+                            "D) High sugar intake"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What are the two main types of peptic ulcers?",
+                        options: [
+                            "A) Gastric and Esophageal",
+                            "B) Gastric and Duodenal",
+                            "C) Duodenal and Rectal",
+                            "D) Esophageal and Rectal"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the major symptom of a peptic ulcer?",
+                        options: [
+                            "A) Headache",
+                            "B) Epigastric pain",
+                            "C) Skin rash",
+                            "D) Shortness of breath"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which medication is commonly used to treat peptic ulcers?",
+                        options: [
+                            "A) Paracetamol",
+                            "B) Proton-pump inhibitors (e.g., omeprazole)",
+                            "C) Antihistamines",
+                            "D) Steroids"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a pressure ulcer also called?",
+                        options: [
+                            "A) Pilonidal ulcer",
+                            "B) Decubitus ulcer",
+                            "C) Peptic ulcer",
+                            "D) Anal ulcer"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a fissure?",
+                        options: [
+                            "A) A cavity in an organ",
+                            "B) A narrow, deep ulcer",
+                            "C) A collection of pus",
+                            "D) A form of cancer"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary treatment for pilonidal sinus?",
+                        options: [
+                            "A) Radiation therapy",
+                            "B) Surgery",
+                            "C) Antibiotics only",
+                            "D) Chemotherapy"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a fistula?",
+                        options: [
+                            "A) A deep ulcer in the stomach",
+                            "B) An abnormal connection between organs",
+                            "C) A normal cavity in the body",
+                            "D) A skin infection"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is a complication of peptic ulcer?",
+                        options: [
+                            "A) Hypertension",
+                            "B) Melena (black-tarry stool)",
+                            "C) Diabetes",
+                            "D) Stroke"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the best diagnostic method for detecting H. pylori?",
+                        options: [
+                            "A) MRI",
+                            "B) CT scan",
+                            "C) Upper gastrointestinal endoscopy",
+                            "D) X-ray"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is an anal fistula commonly associated with?",
+                        options: [
+                            "A) Diabetes",
+                            "B) Perianal abscess",
+                            "C) Lung infection",
+                            "D) Brain tumor"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the most common symptom of an anal fistula?",
+                        options: [
+                            "A) Blurred vision",
+                            "B) Soreness and drainage of pus",
+                            "C) Hair loss",
+                            "D) Shortness of breath"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What imaging technique is used to diagnose a fistula?",
+                        options: [
+                            "A) CT fistulography",
+                            "B) Ultrasound",
+                            "C) ECG",
+                            "D) Spirometry"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the most effective treatment for an anal fistula?",
+                        options: [
+                            "A) Surgery",
+                            "B) Diet modification",
+                            "C) Radiation therapy",
+                            "D) Physiotherapy"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which group is more prone to anal fistulas?",
+                        options: [
+                            "A) Children under 10 years",
+                            "B) Women over 60 years",
+                            "C) Men between 20-40 years",
+                            "D) Infants"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is a pilonidal sinus primarily caused by?",
+                        options: [
+                            "A) Genetic disorders",
+                            "B) Loose hairs collecting in the natal cleft",
+                            "C) Vitamin deficiency",
+                            "D) Excessive exercise"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a common risk factor for peptic ulcers?",
+                        options: [
+                            "A) Low blood pressure",
+                            "B) High sugar diet",
+                            "C) Long-term NSAID use",
+                            "D) High protein intake"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which condition involves an abscess forming and draining through a sinus?",
+                        options: [
+                            "A) Peptic ulcer",
+                            "B) Pilonidal sinus",
+                            "C) Pressure ulcer",
+                            "D) Anal fistula"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the first step in treating peptic ulcer caused by H. pylori?",
+                        options: [
+                            "A) Surgery",
+                            "B) Antibiotics",
+                            "C) Radiation therapy",
+                            "D) Chemotherapy"
+                        ],
+                        correct: 1
+                    }
+                ],
+                 "Lecture6": [
+                     {
+                        question: "What does AIDS stand for?",
+                        options: [
+                            "o A) Acquired Immune Deficiency Syndrome",
+                            "o B) Autoimmune Disease Syndrome",
+                            "o C) Acquired Infection Disease Syndrome",
+                            "o D) Advanced Immune Deficiency System",
+                            "o E) Acquired Infectious Disease Syndrome"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the primary cause of AIDS?",
+                        options: [
+                            "o A) Bacteria",
+                            "o B) Fungi",
+                            "o C) HIV (Human Immunodeficiency Virus)",
+                            "o D) Parasites",
+                            "o E) Viruses other than HIV"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following is NOT a route of HIV transmission in a hospital setting?",
+                        options: [
+                            "o A) Injury with contaminated needles",
+                            "o B) Transfusion of infected blood",
+                            "o C) Contact with open wounds",
+                            "o D) Sharing food with an infected person",
+                            "o E) Use of improperly sterilized instruments"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What should be done to protect areas of broken skin during procedures?",
+                        options: [
+                            "o A) Leave them uncovered",
+                            "o B) Cover with watertight dressings",
+                            "o C) Use regular bandages",
+                            "o D) Apply antiseptics only",
+                            "o E) Avoid contact with gloves"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which item is NOT allowed when entering the operating room?",
+                        options: [
+                            "o A) Clean clothes",
+                            "o B) An impermeable mask",
+                            "o C) A surgical gown",
+                            "o D) A cap to cover hair",
+                            "o E) Casual footwear"
+                        ],
+                        correct: 4
+                    },
+                    {
+                        question: "Which of the following is NOT considered personal protective equipment (PPE)?",
+                        options: [
+                            "o A) N95 mask",
+                            "o B) Surgical gown",
+                            "o C) Double gloves",
+                            "o D) Cloth hat",
+                            "o E) Regular clothing"
+                        ],
+                        correct: 4
+                    },
+                    {
+                        question: "What should be done with used needles and sharps?",
+                        options: [
+                            "o A) Recap and reuse",
+                            "o B) Dispose of immediately in puncture-resistant containers",
+                            "o C) Throw them in regular trash",
+                            "o D) Pass them directly to another person",
+                            "o E) Store them for later use"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Where should sharps containers be positioned?",
+                        options: [
+                            "o A) On the floor",
+                            "o B) Out of reach",
+                            "o C) At eye level and within reach",
+                            "o D) In a separate room",
+                            "o E) Near the entrance to the operating room"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the preferred method for sterilizing equipment that can withstand high heat?",
+                        options: [
+                            "o A) Chemical sterilization",
+                            "o B) Autoclaving",
+                            "o C) Boiling water",
+                            "o D) Air drying",
+                            "o E) Alcohol soaking"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What causes AIDS?",
+                        options: [
+                            "a) Bacteria",
+                            "b) HIV virus",
+                            "c) Fungi",
+                            "d) Parasite"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How does HIV affect the human body?",
+                        options: [
+                            "a) It strengthens the immune system",
+                            "b) It attacks the immune system",
+                            "c) It helps produce more red blood cells",
+                            "d) It prevents bacterial infections"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT a route of HIV transmission in hospitals?",
+                        options: [
+                            "a) Contaminated needles",
+                            "b) Sterile instruments",
+                            "c) Open wounds contacting infected blood",
+                            "d) Transfusion of infected blood"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is sterilization?",
+                        options: [
+                            "a) A process of reducing bacteria",
+                            "b) Complete elimination of microbial life",
+                            "c) A way to clean surgical tools",
+                            "d) Use of antiseptics on skin"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is an example of physical sterilization?",
+                        options: [
+                            "a) Ethylene oxide gas",
+                            "b) Steam under pressure",
+                            "c) Alcohol-based cleaning",
+                            "d) UV light"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which sterilization method is used for heat-sensitive materials?",
+                        options: [
+                            "a) Steam under pressure",
+                            "b) Ethylene oxide gas",
+                            "c) Boiling water",
+                            "d) Incineration"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary purpose of aseptic technique?",
+                        options: [
+                            "a) To make equipment look clean",
+                            "b) To prevent the transmission of infections",
+                            "c) To treat infections",
+                            "d) To reduce patient discomfort"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is an essential step in hand hygiene?",
+                        options: [
+                            "a) Using cold water",
+                            "b) Washing hands before and after procedures",
+                            "c) Wearing gloves without washing hands",
+                            "d) Using perfume-based sanitizers"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT considered a sterile precaution?",
+                        options: [
+                            "a) Wearing gloves",
+                            "b) Using barrier protection",
+                            "c) Using unsterilized instruments",
+                            "d) Proper cleaning of equipment"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is the best practice for handling sharp medical instruments?",
+                        options: [
+                            "a) Recapping needles after use",
+                            "b) Disposing of sharps immediately in puncture-resistant containers",
+                            "c) Passing sharps directly between personnel",
+                            "d) Reusing needles after cleaning"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which PPE (Personal Protective Equipment) is required for a sterile environment?",
+                        options: [
+                            "a) Surgical mask only",
+                            "b) Gloves and protective glasses",
+                            "c) Regular clothes",
+                            "d) No PPE is needed"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What should be done in case of blood splash into the eyes?",
+                        options: [
+                            "a) Ignore it",
+                            "b) Wipe with a dry cloth",
+                            "c) Wash eyes immediately with water",
+                            "d) Wait until symptoms appear"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Why should an impermeable mask be worn in the operating room?",
+                        options: [
+                            "a) To keep the face warm",
+                            "b) To prevent contamination from breath",
+                            "c) To improve vision",
+                            "d) To block odors"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How should blood and bodily fluids be handled?",
+                        options: [
+                            "a) Without any special precautions",
+                            "b) Using PPE such as gloves and gowns",
+                            "c) By directly touching with bare hands",
+                            "d) Disposing of in normal trash bins"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Why should disposable equipment be used whenever possible?",
+                        options: [
+                            "a) It saves time in cleaning",
+                            "b) It prevents cross-contamination",
+                            "c) It is cheaper",
+                            "d) It is always more effective"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is a key step in handling contaminated materials?",
+                        options: [
+                            "a) Leaving them in open areas",
+                            "b) Placing them in biohazard containers",
+                            "c) Washing them with water only",
+                            "d) Storing them for reuse"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What should be done with used needles?",
+                        options: [
+                            "a) Recap and store them for later use",
+                            "b) Bend or break them before disposal",
+                            "c) Dispose of them immediately in a sharps container",
+                            "d) Pass them directly to another person"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Why is it recommended to use a needleless system?",
+                        options: [
+                            "a) To reduce needle stick injuries",
+                            "b) To make procedures slower",
+                            "c) To increase costs",
+                            "d) To create more waste"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the best sterilization method for heat-resistant instruments?",
+                        options: [
+                            "a) Alcohol-based wipes",
+                            "b) Autoclaving (steam under pressure)",
+                            "c) Soaking in warm water",
+                            "d) Sun drying"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Why is it important to check sterilization equipment regularly?",
+                        options: [
+                            "a) To make sure it is working properly",
+                            "b) To reduce electricity usage",
+                            "c) To keep it looking new",
+                            "d) To prevent patient comfort issues"
+                        ],
+                        correct: 0
+                    }
+                ],
+                "Lecture7": [
+                    {
+                        question: "What is the primary role of calcium metabolism in the body?",
+                        options: [
+                            "o A) To regulate blood sugar levels",
+                            "o B) To manage oxygen transport",
+                            "o C) To move and regulate calcium ions",
+                            "o D) To synthesize proteins",
+                            "o E) To detoxify waste products"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which cells in the bone are responsible for increasing calcium deposition?",
+                        options: [
+                            "o A) Osteocytes",
+                            "o B) Osteoblasts",
+                            "o C) Osteoclasts",
+                            "o D) Chondrocytes",
+                            "o E) Myocytes"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What percentage of calcium in the body is stored in bone?",
+                        options: [
+                            "o A) 50%",
+                            "o B) 70%",
+                            "o C) 80%",
+                            "o D) 90%",
+                            "o E) More than 90%"
+                        ],
+                        correct: 4
+                    },
+                    {
+                        question: "Which of the following is NOT a function of calcium?",
+                        options: [
+                            "o A) Skeletal strength",
+                            "o B) Muscle contraction",
+                            "o C) Nerve conduction",
+                            "o D) Protein synthesis",
+                            "o E) Blood clotting"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What is the normal concentration of ionized calcium in plasma?",
+                        options: [
+                            "o A) 1.0 mmol/L",
+                            "o B) 1.2 mmol/L",
+                            "o C) 1.4 mmol/L",
+                            "o D) 2.0 mmol/L",
+                            "o E) 2.6 mmol/L"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How much dietary calcium is typically absorbed by the intestine?",
+                        options: [
+                            "o A) 1-2 mmol",
+                            "o B) 5 mmol",
+                            "o C) 10 mmol",
+                            "o D) 15 mmol",
+                            "o E) 20-25 mmol"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What happens when blood calcium levels drop below normal?",
+                        options: [
+                            "o A) Calcitonin secretion increases",
+                            "o B) PTH secretion increases",
+                            "o C) Calcium absorption decreases",
+                            "o D) Bone formation is enhanced",
+                            "o E) Vitamin D is inactivated"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which form of calcium is considered the active form in the body?",
+                        options: [
+                            "o A) Total calcium",
+                            "o B) Ionized calcium",
+                            "o C) Bound calcium",
+                            "o D) Calcium phosphate",
+                            "o E) Calcium carbonate"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which condition occurs when too much calcium builds up in the kidneys?",
+                        options: [
+                            "o A) Nephrocalcinosis",
+                            "o B) Osteoporosis",
+                            "o C) Hypercalcemia",
+                            "o D) Osteomalacia",
+                            "o E) Rickets"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "What is the primary storage organ for calcium in the body?",
+                        options: [
+                            "a) Liver",
+                            "b) Kidney",
+                            "c) Bone",
+                            "d) Muscle"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which hormone is secreted by the parathyroid gland to regulate calcium levels?",
+                        options: [
+                            "a) Calcitonin",
+                            "b) Parathyroid hormone (PTH)",
+                            "c) Insulin",
+                            "d) Adrenaline"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following increases calcium deposition in bones?",
+                        options: [
+                            "a) Osteoclasts",
+                            "b) Osteoblasts",
+                            "c) Parathyroid hormone",
+                            "d) Vitamin D3"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the normal concentration of calcium ions in plasma?",
+                        options: [
+                            "a) 0.8 mmol/L",
+                            "b) 1.4 mmol/L",
+                            "c) 2.5 mmol/L",
+                            "d) 3.2 mmol/L"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which hormone is secreted by the thyroid gland to reduce blood calcium levels?",
+                        options: [
+                            "a) Parathyroid hormone",
+                            "b) Aldosterone",
+                            "c) Calcitonin",
+                            "d) Glucagon"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which form of calcium is biologically active in the body?",
+                        options: [
+                            "a) Calcium bound to proteins",
+                            "b) Free ionized calcium",
+                            "c) Calcium stored in bones",
+                            "d) Calcium excreted by kidneys"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What happens to calcium levels when the parathyroid hormone is secreted?",
+                        options: [
+                            "a) Decrease",
+                            "b) Increase",
+                            "c) Remain unchanged",
+                            "d) Fluctuate randomly"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which organ plays a role in calcium reabsorption and excretion?",
+                        options: [
+                            "a) Liver",
+                            "b) Kidney",
+                            "c) Pancreas",
+                            "d) Heart"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How much dietary calcium is typically absorbed by the intestine?",
+                        options: [
+                            "a) 5 mmol",
+                            "b) 10 mmol",
+                            "c) 15 mmol",
+                            "d) 20 mmol"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        question: "Which vitamin enhances calcium absorption in the intestine?",
+                        options: [
+                            "a) Vitamin A",
+                            "b) Vitamin B12",
+                            "c) Vitamin C",
+                            "d) Vitamin D3"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "What is calcification?",
+                        options: [
+                            "a) Breakdown of calcium in bones",
+                            "b) Accumulation of calcium in body tissues",
+                            "c) Loss of calcium through urine",
+                            "d) Conversion of calcium into vitamin D"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which type of calcification is normal?",
+                        options: [
+                            "a) Arterial calcification",
+                            "b) Kidney stone formation",
+                            "c) Bone formation",
+                            "d) Soft tissue hardening"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "What is a major cause of abnormal calcium deposits?",
+                        options: [
+                            "a) Lack of oxygen",
+                            "b) Overconsumption of carbohydrates",
+                            "c) Inflammation",
+                            "d) Low protein intake"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which condition is caused by calcium deposits in the kidneys?",
+                        options: [
+                            "a) Osteoporosis",
+                            "b) Nephrocalcinosis",
+                            "c) Hypertension",
+                            "d) Arthritis"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which type of calcification is linked to cardiovascular disease?",
+                        options: [
+                            "a) Shoulder calcification",
+                            "b) Kidney calcification",
+                            "c) Arterial calcification",
+                            "d) Liver calcification"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which factor can contribute to soft tissue calcification?",
+                        options: [
+                            "a) Excess protein intake",
+                            "b) Calcium metabolism disorders",
+                            "c) High water consumption",
+                            "d) Low carbohydrate diet"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which symptom is associated with calcium deposits in the shoulder?",
+                        options: [
+                            "a) High blood pressure",
+                            "b) Pain and decreased range of motion",
+                            "c) Numbness in fingers",
+                            "d) Increased appetite"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "How does hypercalcemia affect calcium regulation?",
+                        options: [
+                            "a) Stimulates osteoclasts to break down bone",
+                            "b) Inhibits calcium absorption in the intestine",
+                            "c) Increases calcium reabsorption by the kidney",
+                            "d) Stimulates PTH secretion"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What is the primary function of osteoclasts?",
+                        options: [
+                            "a) Deposit calcium in bones",
+                            "b) Release calcium from bones",
+                            "c) Absorb calcium from diet",
+                            "d) Convert calcium into vitamin D"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which gland regulates calcium homeostasis by secreting calcitonin?",
+                        options: [
+                            "a) Parathyroid gland",
+                            "b) Thyroid gland",
+                            "c) Adrenal gland",
+                            "d) Pancreas"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which of the following is NOT a function of calcium in the body?",
+                        options: [
+                            "a) Blood clotting",
+                            "b) Muscle contraction",
+                            "c) Nerve conduction",
+                            "d) Fat digestion"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        question: "Which organ plays a crucial role in converting vitamin D to its active form?",
+                        options: [
+                            "a) Liver",
+                            "b) Kidney",
+                            "c) Small intestine",
+                            "d) Heart"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "What happens when blood calcium levels drop too low?",
+                        options: [
+                            "a) Thyroid releases calcitonin",
+                            "b) Kidneys increase calcium excretion",
+                            "c) Parathyroid hormone is secreted",
+                            "d) Bone density increases"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        question: "Which of the following can be a cause of calcium deficiency?",
+                        options: [
+                            "a) Excessive sunlight exposure",
+                            "b) Low vitamin D levels",
+                            "c) High protein intake",
+                            "d) Increased carbohydrate consumption"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        question: "Which mineral works closely with calcium in bone formation?",
+                        options: [
+                            "a) Sodium",
+                            "b) Iron",
+                            "c) Phosphorus",
+                            "d) Magnesium"
+                        ],
+                        correct: 2
+                    }
+                ]
+            }
+        };
+
+        let currentQuestions = [];
+        let currentQuizCategory = '';
+        let currentQuizLecture = '';
+        let lastSubButtonsPageId = '';
+
+
+        function showMainButtonsPage() {
+            document.getElementById('quiz-page').style.display = 'none';
+            document.querySelectorAll('.sub-buttons-page').forEach(page => page.style.display = 'none');
+            document.getElementById('main-buttons-page').style.display = 'flex';
+        }
+
+        function showSubButtonsPage(pageId) {
+            document.getElementById('main-buttons-page').style.display = 'none';
+            document.querySelectorAll('.sub-buttons-page').forEach(page => page.style.display = 'none');
+            document.getElementById(pageId).style.display = 'flex';
+            lastSubButtonsPageId = pageId;
+            document.getElementById('quiz-page').style.display = 'none';
+        }
+
+        function showSubButtonsPageFromQuiz() {
+            document.getElementById('quiz-page').style.display = 'none';
+            document.getElementById(lastSubButtonsPageId).style.display = 'flex';
+        }
+
+
+        function loadQuiz(category, lecture) {
+            currentQuizCategory = category;
+            currentQuizLecture = lecture;
+            currentQuestions = quizData[category][lecture];
+
+            const quizContainer = document.querySelector("#quiz-page .container");
+            quizContainer.innerHTML = '';
+            document.getElementById('quiz-title').textContent = `${getQuizTitle(category, lecture)} `;
+            document.getElementById('quiz-title').innerHTML += '<i class="fas fa-flask"></i>';
+
+            if (currentQuestions && currentQuestions.length > 0) {
+                currentQuestions.forEach((q, index) => {
+                    const questionDiv = document.createElement("div");
+                    questionDiv.classList.add("question");
+                    questionDiv.innerHTML = `<h2 class="original-question">Q${index + 1}: ${q.question}</h2>
+                    <h2 class="translated-question"></h2>`;
+
+                    const optionsList = document.createElement("ul");
+                    optionsList.classList.add("options");
+
+                    q.options.forEach((option, i) => {
+                        const button = document.createElement("button");
+                        button.innerHTML = `<span class="original-option">${option}</span>
+                                            <span class="translated-option"></span>`;
+                        button.addEventListener("click", () => {
+                            handleAnswer(i, q.correct, optionsList);
+                        });
+                        const listItem = document.createElement("li");
+                        listItem.appendChild(button);
+                        optionsList.appendChild(listItem);
+                    });
+
+                    questionDiv.appendChild(optionsList);
+
+                    const translateContainer = document.createElement("div");
+                    translateContainer.classList.add("translate-container");
+
+                    const translateButton = document.createElement("button");
+                    translateButton.classList.add("translate-button");
+                    translateButton.textContent = "ترجمة";
+                    translateButton.addEventListener("click", () => {
+                        translateQuestion(questionDiv, q.question, q.options, questionDiv);
+                    });
+                    translateContainer.appendChild(translateButton);
+
+                    const untranslateButton = document.createElement("button");
+                    untranslateButton.classList.add("untranslate-button");
+                    untranslateButton.textContent = "الغاء الترجمة";
+                    untranslateButton.addEventListener("click", () => {
+                        untranslateQuestion(questionDiv, q.question, q.options, questionDiv);
+                    });
+                    translateContainer.appendChild(untranslateButton);
+
+                    questionDiv.appendChild(translateContainer);
+                    quizContainer.appendChild(questionDiv);
+                });
+            } else {
+                quizContainer.innerHTML = "<p>لا يوجد أسئلة لهذه المحاضرة حتى الآن.</p>";
+            }
+
+            document.querySelectorAll('.sub-buttons-page').forEach(page => page.style.display = 'none');
+            document.getElementById('quiz-page').style.display = 'flex';
+        }
+
+        function getQuizTitle(category, lecture) {
+            let categoryTitle = '';
+            if (category === 'MinistryBag') {
+                categoryTitle = 'اسئلة الحقيبة الوزارية مع اسئلة الدكتور نهاية المحاضرات MCQ';
+            }
+            return `${categoryTitle} - ${lecture}`;
+        }
+
+
+        function handleAnswer(selectedIndex, correctAnswerIndex, optionsList) {
+            const buttons = optionsList.querySelectorAll("button");
+            buttons.forEach((button, index) => {
+                button.disabled = true;
+
+                if (index === correctAnswerIndex) {
+                    button.classList.add("correct");
+                } else if (index === selectedIndex) {
+                    button.classList.add("wrong");
+                }
+            });
+        }
+
+
+        function translateQuestion(questionDiv, originalQuestion, originalOptions, currentQuestionDiv) {
+            const translatedQuestion = currentQuestionDiv.querySelector(".translated-question");
+            const originalQuestionElement = currentQuestionDiv.querySelector(".original-question");
+            const options = currentQuestionDiv.querySelectorAll(".options button");
+
+            fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=${encodeURIComponent(originalQuestion)}`)
+                .then(response => response.json())
+                .then(data => {
+                    translatedQuestion.innerText = data[0][0][0];
+                    translatedQuestion.style.display = "block";
+                    originalQuestionElement.style.display = "none";
+                });
+
+            options.forEach((button, index) => {
+                const originalOption = button.querySelector(".original-option");
+                const translatedOption = button.querySelector(".translated-option");
+                const optionText = originalOptions[index].substring(3).trim(); // remove "o A) ", "A) " and trim whitespace
+                fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=${encodeURIComponent(optionText)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        translatedOption.innerText = data[0][0][0];
+                        translatedOption.style.display = "inline";
+                        originalOption.style.display = "none";
+                    });
+            });
+        }
+
+        function untranslateQuestion(questionDiv, originalQuestion, originalOptions, currentQuestionDiv) {
+            const translatedQuestion = currentQuestionDiv.querySelector(".translated-question");
+            const originalQuestionElement = currentQuestionDiv.querySelector(".original-question");
+            const options = currentQuestionDiv.querySelectorAll(".options button");
+
+            translatedQuestion.style.display = 'none';
+            originalQuestionElement.style.display = 'block';
+
+            options.forEach((button, index) => {
+                const originalOption = button.querySelector(".original-option");
+                const translatedOption = button.querySelector(".translated-option");
+                originalOption.innerText = originalOptions[index];
+                originalOption.style.display = 'inline';
+                translatedOption.style.display = 'none';
+            });
+        }
+
+        showMainButtonsPage();
+    </script>
+</body>
+</html>
